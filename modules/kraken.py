@@ -207,3 +207,38 @@ class API(object):
         sigdigest = base64.b64encode(signature.digest())
 
         return sigdigest.decode()
+
+def coinUnify(coin):
+    if coin == "BTC":
+        return "XXBT"
+    if coin == "USD":
+        return "ZUSD"
+    return coin
+
+def makePair(coin_from, coin_to):
+    return coinUnify(coin_to) + coinUnify(coin_from)
+
+def krakenLoadTicker():
+    k = API()
+    try:
+        pairs = k.query_public('AssetPairs')
+        print(pairs)
+        return pairs
+    except:
+        return None
+
+def krakenGetRate(ticker, coin_from, coin_to):
+    '''
+    if ticker == None:
+        ticker = krakenLoadTicker()
+    if ticker == None:
+        return None
+    '''
+    k = API()
+    try:
+        open_positions = k.query_public('Ticker', {'pair':makePair(coin_from, coin_to)})
+        result = open_positions['result'][makePair(coin_from, coin_to)]['c'][0]
+        return result
+    except:
+        return None
+

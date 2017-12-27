@@ -134,3 +134,26 @@ class poloniex:
     # response      Text containing message about the withdrawal
     def withdraw(self, currency, amount, address):
         return self.api_query('withdraw',{"currency":currency, "amount":amount, "address":address})
+
+def coinUnify(coin):
+    if coin == "USD":
+        coin = "USDT"
+    return coin
+
+def makePair(coin_from, coin_to):
+    return coinUnify(coin_from) + "_" + coinUnify(coin_to)
+
+def poloniexLoadTicker():
+    p = poloniex(0, 0)
+    try:
+        result = p.api_query("returnTicker")
+        return result
+    except:
+        return None
+
+def poloniexGetRate(ticker, coin_from, coin_to):
+    if ticker == None:
+        ticker = poloniexLoadTicker()
+    if ticker == None:
+        return None
+    return ticker[makePair(coin_from, coin_to)]['last']
