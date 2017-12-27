@@ -228,12 +228,8 @@ def krakenLoadTicker():
         return None
 
 def krakenGetRate(ticker, coin_from, coin_to):
-    '''
-    if ticker == None:
-        ticker = krakenLoadTicker()
-    if ticker == None:
-        return None
-    '''
+    #if ticker == None:
+    #    return None
     k = API()
     try:
         open_positions = k.query_public('Ticker', {'pair':makePair(coin_from, coin_to)})

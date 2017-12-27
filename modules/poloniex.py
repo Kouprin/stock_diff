@@ -153,7 +153,5 @@ def poloniexLoadTicker():
 
 def poloniexGetRate(ticker, coin_from, coin_to):
     if ticker == None:
-        ticker = poloniexLoadTicker()
-    if ticker == None:
         return None
     return ticker[makePair(coin_from, coin_to)]['last']
