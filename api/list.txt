@@ -1,0 +1,3 @@
+poloniex    https://pastebin.com/fbkheaRb
+kraken  https://github.com/veox/python3-krakenex/blob/master/krakenex/api.py
+
