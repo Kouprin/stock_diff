@@ -222,7 +222,6 @@ def krakenLoadTicker():
     k = API()
     try:
         pairs = k.query_public('AssetPairs')
-        print(pairs)
         return pairs
     except:
         return None
