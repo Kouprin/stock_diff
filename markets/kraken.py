@@ -216,24 +216,27 @@ def coinUnify(coin):
     return coin
 
 def makePair(coin_from, coin_to):
-    return coinUnify(coin_to) + coinUnify(coin_from)
+    return coinUnify(coin_from) + coinUnify(coin_to)
 
 def krakenLoadTicker():
-    k = API()
     try:
-        pairs = k.query_public('AssetPairs')
-        return pairs
+        k = API()
+        assets = k.query_public('AssetPairs')
+        pairs = ""
+        for asset in assets['result']:
+            pairs = pairs + asset + ","
+        pairs = pairs[:-1]
+        open_positions = k.query_public('Ticker', {'pair':pairs})
+        return open_positions
     except:
         return None
 
 def krakenGetRate(ticker, coin_from, coin_to):
-    #if ticker == None:
-    #    return None
-    k = API()
     try:
-        open_positions = k.query_public('Ticker', {'pair':makePair(coin_from, coin_to)})
-        result = open_positions['result'][makePair(coin_from, coin_to)]['c'][0]
-        return result
+        try:
+            return ticker['result'][makePair(coin_from, coin_to)]['c'][0]
+        except:
+            return ticker['result'][makePair(coin_to, coin_from)]['c'][0]
     except:
         return None
 

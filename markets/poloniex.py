@@ -144,14 +144,18 @@ def makePair(coin_from, coin_to):
     return coinUnify(coin_from) + "_" + coinUnify(coin_to)
 
 def poloniexLoadTicker():
-    p = poloniex(0, 0)
     try:
+        p = poloniex(0, 0)
         result = p.api_query("returnTicker")
         return result
     except:
         return None
 
 def poloniexGetRate(ticker, coin_from, coin_to):
-    if ticker == None:
+    try:
+        try:
+            return ticker[makePair(coin_from, coin_to)]['last']
+        except:
+            return ticker[makePair(coin_to, coin_from)]['last']
+    except:
         return None
-    return ticker[makePair(coin_from, coin_to)]['last']
